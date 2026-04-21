@@ -1,3 +1,4 @@
+import http from "http";
 import { Worker } from "bullmq";
 import IORedis from "ioredis";
 import fetch from "node-fetch";
@@ -52,3 +53,9 @@ worker.on("completed", (job) => {
 worker.on("failed", (job, err) => {
   console.error(`Job ${job.id} failed:`, err);
 });
+
+http
+  .createServer((req, res) => {
+    res.end("Worker running");
+  })
+  .listen(3000);
