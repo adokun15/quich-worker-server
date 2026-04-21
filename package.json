@@ -1,0 +1,24 @@
+{
+  "name": "quich-worker-server",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/adokun15/quich-worker-server#readme",
+  "bugs": {
+    "url": "https://github.com/adokun15/quich-worker-server/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adokun15/quich-worker-server.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "src/worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "bullmq": "^5.75.2",
+    "ioredis": "^5.10.1"
+  }
+}
