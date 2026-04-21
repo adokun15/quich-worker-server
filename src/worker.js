@@ -6,6 +6,7 @@ import fetch from "node-fetch";
 const connection = new IORedis(process.env.REDIS_URL, {
   maxRetriesPerRequest: null,
   enableReadyCheck: false,
+  tls: {},
 });
 
 const WhatsappTextMessage = async ({ phone, text_message }) => {
