@@ -10,21 +10,27 @@ const connection = new IORedis(process.env.REDIS_URL, {
 });
 
 const WhatsappTextMessage = async ({ phone, text_message }) => {
+  const option = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      recipient_type: "individual",
+      to: `${phone}`,
+      type: "text",
+      text: {
+        preview_url: enable_preview,
+        body: text_message,
+      },
+    }),
+  };
+
   const res = await fetch(
     `https://graph.facebook.com/v25.0/${process.env.WHATSAPP_PHONENUMBER_ID}/messages`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${process.env.WHATSAPP_ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to: phone,
-        type: "text",
-        text: { body: text_message },
-      }),
-    },
+    option,
   );
 
   const data = await res.json();
@@ -36,13 +42,13 @@ const WhatsappTextMessage = async ({ phone, text_message }) => {
 const worker = new Worker(
   "whatsapp",
   async (job) => {
-    const { phone, text } = job.data;
+    const { phone, text_message } = job.data;
 
     console.log("Processing job:", job.id);
 
     await WhatsappTextMessage({
       phone,
-      text_message: text,
+      text_message,
     });
   },
   { connection },
